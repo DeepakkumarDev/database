@@ -68,6 +68,8 @@ join products p
 select * from sql_hr.employees;
 use sql_hr;
 
+
+
 select 
 	e.employee_id,
     e.first_name,
