@@ -124,6 +124,17 @@ select * from sql_store.order_items;
 select * from sql_store.order_item_notes;
 
 use sql_store;
+select
+	o.order_id,
+    c.first_name,
+    sh.name as shipper
+from orders o
+join customers c
+	using (customer_id)
+left join shippers sh
+	using (shipper_id);
+
+
 select *
 from order_items oi
 join order_item_notes oin
