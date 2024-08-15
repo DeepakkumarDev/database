@@ -1,0 +1,101 @@
+-- create and drop databases
+CREATE DATABASE sql_store2;
+
+CREATE DATABASE IF NOT EXISTS sql_store2;
+
+DROP DATABASE IF EXISTS sql_store2;
+
+CREATE DATABASE IF NOT EXISTS sql_store2;
+
+USE sql_store2;
+DROP TABLE IF EXISTS customers;
+CREATE TABLE IF NOT EXISTS customers
+(
+	customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    points INT NOT NULL DEFAULT 0,
+    email   VARCHAR(255) NOT NULL UNIQUE
+);
+
+-- ALTERING TABLE /MODIFY TABLE
+
+ALTER TABLE customers
+	ADD last_name VARCHAR(50) NOT NULL AFTER `first_name`,
+    ADD city 	VARCHAR(50) NOT NULL,
+    MODIFY COLUMN first_name VARCHAR(55) DEFAULT '',
+    DROP points;
+
+select * from customers;
+
+DROP TABLE IF EXISTS orders;
+CREATE TABLE IF NOT EXISTS orders
+(
+	order_id INT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    FOREIGN KEY fk_orders_customer(customer_id)
+		REFERENCES customers(customer_id)
+        ON UPDATE CASCADE -- SET NULL, NO ACTION
+        ON DELETE NO ACTION
+        
+);
+
+
+-- NOW IF YOU WOULD LIKE TO DELETE CUSTOMER FIRST YOU HAVE TO DELET ORDERS TABLE
+--  SINCE ORDERS TABLE ID DEPEND UPON THE CUSTOMERS TABLE
+
+
+
+-- ALTERING PRIMARY AND FOREIGN KEY CONSTRAINTS
+
+ALTER TABLE orders 
+	ADD PRIMARY KEY (order_id),
+    DROP PRIMARY KEY,
+	DROP FOREIGN KEY fk_orders_customers,
+    ADD FOREIGN KEY fk_orders_customers(customer_id)
+		REFERENCES customers (customer_id)
+        ON UPDATE CASCADE
+        ON DELETE NO ACTION;
+
+-- character sets and collations
+-- 'abc'
+SHOW CHARSET;
+-- CHAR SET  	DESCRIPTION	 			DEFAULT COLLATION 	MAXIEN
+-- UTF8 		UTF-8 UNICODE 			UTF8_GENERAL_CI 		3
+
+-- CHAR(10) -> 10*3 = 30 FOR EACH CLOUMNS
+
+CREATE DATABASE db_name
+	CHARACTER SET latin1;
+    
+ALTER DATABASE db_name
+	CHARACTER SET latin1;
+    
+CREATE TABLE table1
+(
+)
+CHARACTER SET latin1;
+
+
+ALTER TABLE table1
+CHARACTER SET latin1;
+
+
+
+DROP TABLE IF EXISTS customers;
+CREATE TABLE IF NOT EXISTS customers
+(
+	customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+    points INT NOT NULL DEFAULT 0,
+    email   VARCHAR(255) NOT NULL UNIQUE
+);
+
+
+-- STORAGE ENGINES
+SHOW ENGINES;
+-- MyISAM
+-- InnoDB
+
+
+ALTER TABLE customers
+ENGINE = InnoDB;
